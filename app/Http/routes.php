@@ -11,6 +11,15 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$app->get('{path:.*}', function () use ($app) {
+    return "verdx bot";
+    //return $app->version()."verdx bot";
+});
+
+$app->post('{path:.*}', function() use ($app)
+{
+    //return $app->request->input('team_id');
+    return App\Team::where('slack_team_id',
+                            $app->request->input('team_id') )
+                            ->first();
 });
