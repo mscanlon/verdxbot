@@ -16,14 +16,12 @@ class TeamValidator
      */
     public function handle($request, Closure $next)
     {
-        $team = Team::where(
-            'slack_team_id',
-            $request->input('team_id')
-        )->first();
+        $team = Team::teamTokenCheck($request->input('team_id'),
+            $request->input('token'))->first();
         if ($team) {
             return $next($request);
         } else {
-            return response('Not Authorized', 401);
+            return response('Your slack team '.$request->input('team_id').' is not authorized to use this!', 401);
         }
 
     }
