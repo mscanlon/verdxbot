@@ -12,7 +12,7 @@
 */
 
 $app->get('{path:.*}', function () use ($app) {
-    return "verdx bot";
+    return "Verdx Bot";
     //return $app->version()."verdx bot";
 });
 
