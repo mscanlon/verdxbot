@@ -1,6 +1,6 @@
 <?php
 $dbopts = parse_url(getenv('DATABASE_URL'));
-var_dump($dbopts);exit();
+
 return [
 
     /*
@@ -50,8 +50,8 @@ return [
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', $dbopts["host"]),
-            'port'     => env('DB_PORT', 5432),
-            'database' => env('DB_DATABASE', $dbopts["path"]),
+            'port'     => env('DB_PORT', $dbopts["port"]),
+            'database' => env('DB_DATABASE', substr($dbopts["path"], 1)),
             'username' => env('DB_USERNAME', $dbopts["user"]),
             'password' => env('DB_PASSWORD', $dbopts["pass"]),
             'charset'  => env('DB_CHARSET', 'utf8'),
