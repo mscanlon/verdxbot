@@ -20,4 +20,3 @@ $app->post('/',['middleware' => 'IsTeam', function() use ($app)
 {
     return "You can give out trophies!";
 }]);
-®
