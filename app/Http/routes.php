@@ -11,12 +11,13 @@
 |
 */
 
-$app->get('{path:.*}', function () use ($app) {
+$app->get('{path:.*}', function () use ($app) 
+{
     return "Verdx Bot is coming soon :)";
     //return $app->version()."verdx bot";
 });
 
 $app->post('/',['middleware' => 'IsTeam', function() use ($app)
 {
-    return "You can give out trophies!";
+    return "You can give out trophies! :trophy; ";
 }]);
