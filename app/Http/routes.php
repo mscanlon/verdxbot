@@ -19,5 +19,5 @@ $app->get('{path:.*}', function () use ($app)
 
 $app->post('/',['middleware' => 'IsTeam', function() use ($app)
 {
-    return "You can give out trophies! :trophy; ";
+    return "You can give out trophies!";
 }]);
