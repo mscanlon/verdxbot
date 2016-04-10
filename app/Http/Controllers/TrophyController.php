@@ -25,8 +25,12 @@ class TrophyController extends Controller
         $text = strtolower($request->input('text'));
         if ($text == "count") {
             $team = Team::where('slack_team_id',$request->input('team_id'))->first();
-
-            return "ScoreBoard";
+            $scores = Trophy::scoreboard($team->id);
+            $scoreStr = "";
+            foreach ( $scores as $score){
+                $scoreStr .= $score->winner . ": " . $score->score . "\n";
+            }
+            return $scoreStr;
         } elseif (substr($text, 0, 1) == "@") {
             return $this->giveTrophy($request);
         } else{

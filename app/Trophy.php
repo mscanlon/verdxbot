@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Trophy extends Model
 {
@@ -22,5 +23,14 @@ class Trophy extends Model
         'giver', 'winner',
     ];
 
+    public static function scoreboard($team_id)
+    {
+        return DB::table('trophies')
+            ->select(DB::raw('winner, count(*) as score'))
+            ->where('team_id', $team_id)
+            ->groupBy('winner')
+            ->orderBy('score', 'desc')
+            ->get();
+    }
 
 }
