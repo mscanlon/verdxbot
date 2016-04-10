@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Team;
 use App\Trophy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class TrophyController extends Controller
 {
@@ -23,7 +24,9 @@ class TrophyController extends Controller
 
         $text = strtolower($request->input('text'));
         if ($text == "count") {
-            return "Give the trophy count rundown";
+            $team = Team::where('slack_team_id',$request->input('team_id'))->first();
+
+            return "ScoreBoard";
         } elseif (substr($text, 0, 1) == "@") {
             return $this->giveTrophy($request);
         } else{
@@ -33,7 +36,7 @@ class TrophyController extends Controller
 
     protected function giveTrophy(Request $request)
     {
-        $giver = $request->input('user_name');
+        $giver = "@".$request->input('user_name');
         $text = trim($request->input('text'));
         if ($giver != $text){
             $team = Team::where('slack_team_id',$request->input('team_id'))->first();
