@@ -23,5 +23,8 @@
             "tests/",
             "database/"
         ]
+    },
+    "scripts": {
+        "post-install-cmd": "php artisan migrate --force"
     }
 }

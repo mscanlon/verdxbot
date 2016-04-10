@@ -27,4 +27,9 @@ class Team extends Model
             ['token', $token]
         ]);
     }
+
+    public function trophies()
+    {
+        return $this->hasMany(Trophy::class);
+    }
 }
