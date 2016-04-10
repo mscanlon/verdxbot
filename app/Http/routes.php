@@ -17,7 +17,4 @@ $app->get('{path:.*}', function () use ($app)
     //return $app->version()."verdx bot";
 });
 
-$app->post('trophy',['middleware' => 'IsTeam', function() use ($app)
-{
-    return "You can give out trophies!";
-}]);
+$app->post('trophy','TrophyController@parse');
