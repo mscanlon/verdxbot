@@ -66,7 +66,7 @@ class TrophyController extends Controller
 
         if ($giver->id != $winner->id){
             $winner->trophies()->create(['giver' => $giver->id]);
-            return $giver->user_name . " gave " . $winner->user_name . " a trophy!";
+            return "@".$giver->user_name . " gave @" . $winner->user_name . " a trophy!";
         } else {
             return "YOU CAN'T GIVE YOURSELF A TROPHY!!!";
         }
