@@ -22,11 +22,12 @@ class TrophyController extends Controller
 
     public function parse(Request $request)
     {
-
+        $msgType = "in_channel";
         $message = "";
 
         $text = strtolower($request->input('text'));
         if ($text == "count") {
+            $msgType = "ephemeral";
             $team = Team::where('slack_team_id',$request->input('team_id'))->first();
             foreach ($team->members as $member) {
                 $message .= "@".$member->user_name . ": " .$member->trophies->count(). "\n";
@@ -38,7 +39,7 @@ class TrophyController extends Controller
         }
 
         $responseArray = [
-            "response_type" => "in_channel",
+            "response_type" => $msgType,
             "text" => $message
         ];
 
