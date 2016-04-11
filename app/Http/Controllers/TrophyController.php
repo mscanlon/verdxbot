@@ -22,6 +22,7 @@ class TrophyController extends Controller
 
     public function parse(Request $request)
     {
+
         $message = "";
 
         $text = strtolower($request->input('text'));
@@ -36,7 +37,12 @@ class TrophyController extends Controller
             $message = "You can't do anything right. Try again!";
         }
 
-        return $message;
+        $responseArray = new Collection([
+            "response_type" => "in_channel",
+            "text" => $message
+        ]);
+
+        return $responseArray->toJson();
     }
 
     protected function giveTrophy(Request $request)
