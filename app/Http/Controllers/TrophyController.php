@@ -37,12 +37,12 @@ class TrophyController extends Controller
             $message = "You can't do anything right. Try again!";
         }
 
-        $responseArray = new Collection([
+        $responseArray = [
             "response_type" => "in_channel",
             "text" => $message
-        ]);
+        ];
 
-        return $responseArray->toJson();
+        return response()->json($responseArray);
     }
 
     protected function giveTrophy(Request $request)
