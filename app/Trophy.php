@@ -20,17 +20,9 @@ class Trophy extends Model
      * @var array
      */
     protected $fillable = [
-        'giver', 'winner',
+        'giver', 'member_id',
     ];
 
-    public static function scoreboard($team_id)
-    {
-        return DB::table('trophies')
-            ->select(DB::raw('winner, count(*) as score'))
-            ->where('team_id', $team_id)
-            ->groupBy('winner')
-            ->orderBy('score', 'desc')
-            ->get();
-    }
+
 
 }

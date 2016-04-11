@@ -28,8 +28,8 @@ class Team extends Model
         ]);
     }
 
-    public function trophies()
+    public function members()
     {
-        return $this->hasMany(Trophy::class);
+        return $this->hasMany(Member::class);
     }
 }

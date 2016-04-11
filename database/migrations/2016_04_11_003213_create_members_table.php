@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTrophiesTable extends Migration
+class CreateMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,15 @@ class CreateTrophiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('trophies', function (Blueprint $table) {
+        Schema::create('members', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('member_id')->unsigned();
-            $table->integer('giver')->unsigned();
+            $table->integer('team_id');
+            $table->string('user_name');
             $table->timestamps();
-            
+
+            $table->foreign('team_id')
+                ->references('id')->on('teams')
+                ->onDelete('cascade');
         });
     }
 
@@ -28,6 +31,6 @@ class CreateTrophiesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('trophies');
+        Schema::drop('members');
     }
 }
