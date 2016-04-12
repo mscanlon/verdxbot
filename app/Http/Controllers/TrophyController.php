@@ -56,21 +56,28 @@ class TrophyController extends Controller
             $team->members()->save($giver);
         }
 
-        $text = trim(substr($request->input('text'),1));
 
-        $winner = Member::where('team_id', $team->id)
-            ->where('user_name', $text)->first();
-        if(is_null($winner)) {
-            $winner = new Member(['user_name' => $text]);
-            $team->members()->save($winner);
-        }
+        preg_match_all('/@\w+/',$request->input('text'),$userNames);
 
-        if ($giver->id != $winner->id){
-            $winner->trophies()->create(['giver' => $giver->id]);
-            return "@".$giver->user_name . " gave @" . $winner->user_name . " a trophy!";
+        if(!in_array('@'.$giver->user_name, $userNames[0])) {
+            foreach($userNames[0] as $userName) {
+                $text = trim(substr($userName,1));
+                $winner = Member::where('team_id', $team->id)
+                    ->where('user_name', $text)->first();
+                if (is_null($winner)) {
+                    $winner = new Member(['user_name' => $text]);
+                    $team->members()->save($winner);
+                }
+
+                $winner->trophies()->create(['giver' => $giver->id]);
+            }
+            return "@".$giver->user_name . " gave " . implode(" ", $userNames[0]) . " a trophy!";
+
         } else {
-            return "YOU CAN'T GIVE YOURSELF A TROPHY!!!";
+            return "You can't give yourself a trophy!";
         }
+
+
 
     }
 }
