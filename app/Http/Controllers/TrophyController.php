@@ -32,7 +32,7 @@ class TrophyController extends Controller
             foreach ($team->members as $member) {
                 $message .= "@".$member->user_name . ": " .$member->trophies->count(). "\n";
             }
-        } elseif (substr($text, 0, 1) == "@") {
+        } elseif (strpos($text,"@") !== false) {
             $message = $this->giveTrophy($request);
         } else{
             $message = "You can't do anything right. Try again!";
