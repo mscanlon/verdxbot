@@ -57,7 +57,7 @@ class TrophyController extends Controller
         }
 
 
-        preg_match_all('/@\w+/',$request->input('text'),$userNames);
+        preg_match_all('/@(\w|-|\.)+/',$request->input('text'),$userNames);
 
         if(!in_array('@'.$giver->user_name, $userNames[0])) {
             foreach($userNames[0] as $userName) {
