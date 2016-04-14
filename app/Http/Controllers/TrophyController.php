@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Member;
-use App\Team;
-use App\Trophy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class TrophyController extends Controller
 {
@@ -17,7 +15,7 @@ class TrophyController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('IsTeam');
+        $this->middleware('auth');
     }
 
     public function parse(Request $request)
@@ -28,8 +26,8 @@ class TrophyController extends Controller
         $text = strtolower($request->input('text'));
         if ($text == "count") {
             $msgType = "ephemeral";
-            $team = Team::where('slack_team_id',$request->input('team_id'))->first();
-            foreach ($team->members as $member) {
+            $user = $request->user();
+            foreach ($user->members as $member) {
                 $message .= "@".$member->user_name . ": " .$member->trophies->count(). "\n";
             }
         } elseif (strpos($text,"@") !== false) {
@@ -48,12 +46,12 @@ class TrophyController extends Controller
 
     protected function giveTrophy(Request $request)
     {
-        $team = Team::where('slack_team_id',$request->input('team_id'))->first();
-        $giver = Member::where('team_id', $team->id)
+        $user = $request->user();
+        $giver = Member::where('user_id', $user->id)
             ->where('user_name', $request->input('user_name'))->first();
         if(is_null($giver)) {
             $giver = new Member(['user_name' => $request->input('user_name')]);
-            $team->members()->save($giver);
+            $user->members()->save($giver);
         }
 
 
@@ -62,11 +60,11 @@ class TrophyController extends Controller
         if(!in_array('@'.$giver->user_name, $userNames[0])) {
             foreach($userNames[0] as $userName) {
                 $text = trim(substr($userName,1));
-                $winner = Member::where('team_id', $team->id)
+                $winner = Member::where('user_id', $user->id)
                     ->where('user_name', $text)->first();
                 if (is_null($winner)) {
                     $winner = new Member(['user_name' => $text]);
-                    $team->members()->save($winner);
+                    $user->members()->save($winner);
                 }
 
                 $winner->trophies()->create(['giver' => $giver->id]);

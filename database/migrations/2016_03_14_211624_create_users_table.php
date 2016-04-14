@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMembersTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,12 @@ class CreateMembersTable extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->string('user_name');
+            $table->string('api_token')->unique();
+            $table->string('team_id')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
         });
     }
 
@@ -31,6 +28,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('members');
+        Schema::drop('users');
     }
 }

@@ -64,7 +64,7 @@ $app->singleton(
 // ]);
 
  $app->routeMiddleware([
-     'IsTeam' => App\Http\Middleware\TeamValidator::class,
+     'auth' => App\Http\Middleware\Authenticate::class,
  ]);
 
 /*
@@ -79,7 +79,7 @@ $app->singleton(
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+   $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

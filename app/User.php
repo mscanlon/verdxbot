@@ -20,15 +20,11 @@ class User extends Model implements
      * @var array
      */
     protected $fillable = [
-        'name', 'email',
+        'api_token', 'team_id', 'description',
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-    ];
+    public function members()
+    {
+        return $this->hasMany(Member::class);
+    }
 }
