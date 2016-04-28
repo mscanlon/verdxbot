@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Member;
+use App\Trophy;
 use Illuminate\Http\Request;
 
 class TrophyController extends Controller
