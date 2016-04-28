@@ -27,9 +27,10 @@ class TrophyController extends Controller
         $message = "";
 
         $text = strtolower($request->input('text'));
+        $user = $request->user();
         if ($text == "count") {
             $msgType = "ephemeral";
-            $user = $request->user();
+            
             foreach ($user->members as $member) {
                 $message .= "@".$member->user_name . ": " .$member->trophies->count(). "\n";
             }
@@ -57,6 +58,24 @@ class TrophyController extends Controller
             $message = $this->giveTrophy($request);
         } elseif (strpos(strtolower($text), "wake") !== false){
             $message = "Fuck you! I'm awake!";
+        } elseif (strpos(strtolower($text), "given") !== false){
+            $giver = Member::where('user_id', $user->id)
+                ->where('user_name', $request->input('user_name'))
+                ->first();
+
+            if( $giver ){
+                $trophyCount = Trophy::given($giver->id)->today()->count();
+            } else {
+                $trophyCount = 0;
+            }
+
+            $message .= "You have given ".$trophyCount;
+            if ($trophyCount == 1){
+                $message .= " trophy";
+            } else {
+                $message .= " trophies";
+            }
+            $message .= " today.";
         } else {
             $message = "You can't do anything right. Try again!";
         }
