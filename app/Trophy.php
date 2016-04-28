@@ -31,8 +31,8 @@ class Trophy extends Model
 
     public function scopeToday($query)
     {
-        return $query->where('created_at', '>=', date('Y-m-d 00:00:00'))
-            ->where('created_at', '<=', date('Y-m-d 23:59:59'));
+        return $query->where('created_at', '>', date('Y-m-d 00:00:00'))
+            ->where('created_at', '<', date('Y-m-d 23:59:59'));
     }
 
 
