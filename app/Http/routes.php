@@ -13,7 +13,7 @@
 
 $app->get('{path:.*}', function () use ($app) 
 {
-    return "Verdx Bot is coming soon :) ". date('Y-m-d 00:00:00');
+    return "Verdx Bot is coming soon :) ". date('Y-m-d H:i:s');
     //return $app->version()."verdx bot";
 });
 
