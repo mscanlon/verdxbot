@@ -23,11 +23,13 @@ class Trophy extends Model
         'giver', 'member_id',
     ];
     
+    /*
     public function scopeGiven($query, $giver_id)
     {
         return $query->where('giver', $giver_id)
             ->where('created_at', date('Y-m-d');
     }
+    */
 
 
 

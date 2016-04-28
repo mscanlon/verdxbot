@@ -35,14 +35,14 @@ class TrophyController extends Controller
             $message = $this->giveTrophy($request);
         } elseif (strpos(strtolower($text), "wake") !== false){
             $message = "Fuck you! I'm awake!";
-        } elseif (strpos(strtolower($text), "given") !== false){
+        } /* elseif (strpos(strtolower($text), "given") !== false){
             $user = $request->user();
             $giver = Member::where('user_id', $user->id)
                 ->where('user_name', $request->input('user_name'))->first();
             
             $trophyCount = Trophy::given($user->id)->count();
             $message = "You have given ".$trophyCOunt." trophies";
-        }else{
+        } */ else{
             $message = "You can't do anything right. Try again!";
         }
 
