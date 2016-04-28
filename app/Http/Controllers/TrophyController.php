@@ -32,6 +32,8 @@ class TrophyController extends Controller
             }
         } elseif (strpos($text,"@") !== false) {
             $message = $this->giveTrophy($request);
+        } elseif (strpos(strtolower($text), "wake") !== false){
+            $message = "Fuck you! I'm awake!";
         } else{
             $message = "You can't do anything right. Try again!";
         }
