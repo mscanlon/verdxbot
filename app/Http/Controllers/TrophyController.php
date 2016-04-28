@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class TrophyController extends Controller
 {
+    protected $trophyLimit = 2;
+
     /**
      * Create a new controller instance.
      *
@@ -31,18 +33,30 @@ class TrophyController extends Controller
             foreach ($user->members as $member) {
                 $message .= "@".$member->user_name . ": " .$member->trophies->count(). "\n";
             }
+
+            $giver = Member::where('user_id', $user->id)
+                ->where('user_name', $request->input('user_name'))
+                ->first();
+
+            if( $giver ){
+                $trophyCount = Trophy::given($giver->id)->today()->count();
+            } else {
+                $trophyCount = 0;
+            }
+
+            $message .= "You have given ".$trophyCount;
+            if ($trophyCount == 1){
+                $message .= " trophy";
+            } else {
+                $message .= " trophies";
+            }
+            $message .= " today.";
+
         } elseif (strpos($text,"@") !== false) {
             $message = $this->giveTrophy($request);
         } elseif (strpos(strtolower($text), "wake") !== false){
             $message = "Fuck you! I'm awake!";
-        } /* elseif (strpos(strtolower($text), "given") !== false){
-            $user = $request->user();
-            $giver = Member::where('user_id', $user->id)
-                ->where('user_name', $request->input('user_name'))->first();
-            
-            $trophyCount = Trophy::given($user->id)->count();
-            $message = "You have given ".$trophyCOunt." trophies";
-        } */ else{
+        } else {
             $message = "You can't do anything right. Try again!";
         }
 
@@ -64,6 +78,12 @@ class TrophyController extends Controller
             $user->members()->save($giver);
         }
 
+        $trophyCount = Trophy::given($giver->id)->today()->count();
+        if ($trophyCount >= $this->trophyLimit){
+            return "Hey, look at @".$giver->user_name.
+                ". Moneybags is trying to give out more than ".
+                $this->trophyLimit." trophies today!";
+        }
 
         preg_match_all('/@(\w|-|\.)+/',$request->input('text'),$userNames);
 
