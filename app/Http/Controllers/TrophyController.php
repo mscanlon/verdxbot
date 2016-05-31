@@ -30,10 +30,21 @@ class TrophyController extends Controller
         $user = $request->user();
         if ($text == "count") {
             $msgType = "ephemeral";
+            $message .= "Trophies Received|Given \n";
+            $trophiesEarned = [];
+            $trophiesGiven = [];
             
             foreach ($user->members as $member) {
-                $message .= "@".$member->user_name . ": " .$member->trophies->count(). "\n";
+                $trophiesEarned["@".$member->user_name] = $member->trophies->count();
+                $trophiesGiven["@".$member->user_name] = Trophy::given($member->id)->count();
             }
+            
+            arsort($trophiesEarned);
+
+            foreach ($trophiesEarned as $name=>$cnt){
+                $message .= $name . ": " .$cnt. "|" .$trophiesGiven[$name]. "\n";
+            }
+            
 
             $giver = Member::where('user_id', $user->id)
                 ->where('user_name', $request->input('user_name'))
