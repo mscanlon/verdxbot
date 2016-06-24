@@ -110,12 +110,12 @@ class TrophyController extends Controller
         }
 
 
-        $trophyCount = Trophy::given($giver->id)->today()->count();
-        if ($trophyCount >= $this->trophyLimit){
-            return "Hey, look at @".$giver->user_name.
-                ". Moneybags is trying to give out more than ".
-                $this->trophyLimit." trophies today!";
-        }
+//        $trophyCount = Trophy::given($giver->id)->today()->count();
+//        if ($trophyCount >= $this->trophyLimit){
+//            return "Hey, look at @".$giver->user_name.
+//                ". Moneybags is trying to give out more than ".
+//                $this->trophyLimit." trophies today!";
+//        }
         
 
         preg_match_all('/@(\w|-|\.)+/',$request->input('text'),$userNames);
